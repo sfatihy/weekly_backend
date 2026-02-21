@@ -14,7 +14,9 @@ export class NoteRepository {
 
     async getNotes(userId?: string): Promise<any[]> {
         if (userId) {
-            const { results } = await this.db.prepare(`SELECT * FROM notes WHERE userId = ? ORDER BY updatedAt DESC`).bind(userId).all();
+            const { results } = await this.db.prepare(
+                `SELECT id, title, content, createdAt, updatedAt FROM notes WHERE userId = ? ORDER BY updatedAt DESC`
+            ).bind(userId).all();
             return results;
         }
         const { results } = await this.db.prepare(`SELECT * FROM notes ORDER BY updatedAt DESC`).all();
@@ -22,7 +24,7 @@ export class NoteRepository {
     }
 
     async deleteNote(id: string): Promise<boolean> {
-        const { success } = await this.db.prepare(`DELETE FROM notes WHERE id = ?`).bind(id).run();
-        return success;
+        const { meta } = await this.db.prepare(`DELETE FROM notes WHERE id = ?`).bind(id).run();
+        return meta.changes > 0;
     }
 }

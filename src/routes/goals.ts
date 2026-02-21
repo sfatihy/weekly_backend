@@ -9,11 +9,12 @@ const app = new Hono<{ Bindings: Bindings }>()
 
 app.post('/', async (c) => {
     try {
-        const { id, title, targetHours, period } = await c.req.json()
+        const { title, targetHours, period } = await c.req.json()
+        const id = crypto.randomUUID()
         const repo = new GoalRepository(c.env.DB)
         const success = await repo.createGoal(id, title, targetHours, period)
 
-        return c.json({ success }, 201)
+        return c.json({ success, id }, 201)
     } catch (e: any) {
         return c.json({ error: e.message }, 500)
     }
@@ -29,11 +30,12 @@ app.get('/', async (c) => {
 app.post('/:goalId/logs', async (c) => {
     try {
         const goalId = c.req.param('goalId')
-        const { id, hours, timestamp, isCompleted } = await c.req.json()
+        const { hours, timestamp, isCompleted } = await c.req.json()
+        const id = crypto.randomUUID()
         const repo = new GoalRepository(c.env.DB)
 
         const success = await repo.addGoalLog(id, goalId, hours, timestamp, isCompleted)
-        return c.json({ success, message: "Log added" }, 201)
+        return c.json({ success, message: "Log added", id }, 201)
     } catch (e: any) {
         return c.json({ error: e.message }, 500)
     }

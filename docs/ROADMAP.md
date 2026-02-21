@@ -12,6 +12,7 @@ This document serves as the main index for Project Turtle's vision and history. 
 - [x] [docs/changelog/005_jwt_user_id_injection.md](changelog/005_jwt_user_id_injection.md)
 - [x] [docs/changelog/006_delete_endpoints.md](changelog/006_delete_endpoints.md)
 - [x] [docs/changelog/007_token_rotation_and_fixes.md](changelog/007_token_rotation_and_fixes.md)
+- [x] [docs/changelog/008_api_refinements.md](changelog/008_api_refinements.md)
 - [ ] `docs/features/feature_003_offline_sync.md` *(Pending)*
 
 ## Phase 3: Advanced Features (Planned 🗓)

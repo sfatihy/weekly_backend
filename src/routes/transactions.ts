@@ -20,10 +20,11 @@ app.post('/', async (c) => {
         const body = await c.req.json()
         const user = c.get('user')
         body.userId = user.id
+        body.id = crypto.randomUUID()
         const repo = new TransactionRepository(c.env.DB)
         const success = await repo.createTransaction(body)
 
-        return c.json({ success }, 201)
+        return c.json({ success, id: body.id }, 201)
     } catch (e: any) {
         return c.json({ error: e.message }, 500)
     }

@@ -163,7 +163,6 @@ export const openApiSpec = {
                             schema: {
                                 type: "object",
                                 properties: {
-                                    id: { type: "string" },
                                     title: { type: "string" },
                                     targetHours: { type: "number" },
                                     period: { type: "string" }
@@ -204,7 +203,6 @@ export const openApiSpec = {
                             schema: {
                                 type: "object",
                                 properties: {
-                                    id: { type: "string" },
                                     hours: { type: "number" },
                                     timestamp: { type: "string", format: "date-time" },
                                     isCompleted: { type: "boolean" }
@@ -246,7 +244,6 @@ export const openApiSpec = {
                             schema: {
                                 type: "object",
                                 properties: {
-                                    id: { type: "string" },
                                     title: { type: "string" },
                                     description: { type: "string" },
                                     startTime: { type: "string", format: "date-time" },
@@ -290,6 +287,34 @@ export const openApiSpec = {
             }
         },
         "/tasks/{id}": {
+            put: {
+                tags: ["Tasks"],
+                summary: "Update entire task properties",
+                parameters: [
+                    { name: "id", in: "path", required: true, schema: { type: "string" } }
+                ],
+                requestBody: {
+                    required: true,
+                    content: {
+                        "application/json": {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    title: { type: "string" },
+                                    description: { type: "string" },
+                                    startTime: { type: "string", format: "date-time" },
+                                    endTime: { type: "string", format: "date-time" },
+                                    status: { type: "string" },
+                                    recurrence: { type: "string" },
+                                    goalId: { type: "string" },
+                                    goalLogId: { type: "string" }
+                                }
+                            }
+                        }
+                    }
+                },
+                responses: { "200": { description: "Task updated successfully" } }
+            },
             delete: {
                 tags: ["Tasks"],
                 summary: "Delete a task",
@@ -347,7 +372,6 @@ export const openApiSpec = {
                             schema: {
                                 type: "object",
                                 properties: {
-                                    id: { type: "string" },
                                     title: { type: "string" },
                                     type: { type: "string" },
                                     date: { type: "string", format: "date-time" },

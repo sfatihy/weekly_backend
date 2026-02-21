@@ -34,26 +34,27 @@ The system uses JWT (JSON Web Tokens). You **must** implement the following logi
 - `GET /users/{id}`: Fetch User by ID.
 
 ### 2. Goals (`/goals`)
-- `POST /goals`: Create a new Goal (`id`, `title`, `targetHours`, `period`).
+- `POST /goals`: Create a new Goal (`title`, `targetHours`, `period`).
 - `GET /goals`: Fetch all Goals.
 - `DELETE /goals/{goalId}`: Delete a goal.
-- `POST /goals/{goalId}/logs`: Add progress (`id`, `hours`, `timestamp` as ISO8601 string, `isCompleted` boolean).
+- `POST /goals/{goalId}/logs`: Add progress (`hours`, `timestamp` as ISO8601 string, `isCompleted` boolean).
 - `GET /goals/{goalId}/logs`: View progress for a specific goal.
 - `DELETE /goals/{goalId}/logs/{logId}`: Delete a specific progress log.
 
 ### 3. Tasks (`/tasks`)
-- `POST /tasks`: Create task (`id`, `title`, `description`, `startTime`, `endTime`, `status`, `recurrence`, `goalId`, `goalLogId`). *Note: Time formats should be ISO8601.*
+- `POST /tasks`: Create task (`title`, `description`, `startTime`, `endTime`, `status`, `recurrence`, `goalId`, `goalLogId`). *Note: Time formats should be ISO8601.*
 - `GET /tasks`: Fetch tasks for the current user.
-- `PUT /tasks/{id}/status`: Update task status. Body: `{"status": "Completed"}`.
+- `PUT /tasks/{id}`: Update task properties (`title`, `description`, `status` etc). `status` must be 'pending' or 'completed'.
+- `PUT /tasks/{id}/status`: Update task status. Body: `{"status": "completed"}`.
 - `DELETE /tasks/{id}`: Delete a task.
 
 ### 4. Notes (`/notes`)
-- `POST /notes`: Create note (`id`, `title`, `content`).
+- `POST /notes`: Create note (`title`, `content`).
 - `GET /notes`: Fetch user notes.
 - `DELETE /notes/{id}`: Delete a note.
 
 ### 5. Transactions (`/transactions`) (Finance)
-- `POST /transactions`: Basic income/expense. (`id`, `title`, `amount`, `type`, `date`, `category`).
+- `POST /transactions`: Basic income/expense. (`title`, `amount`, `type`, `date`, `category`).
 - `GET /transactions`: View transactions.
 - `DELETE /transactions/{id}`: Delete a transaction.
 

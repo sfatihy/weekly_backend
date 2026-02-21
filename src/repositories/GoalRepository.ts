@@ -31,12 +31,12 @@ export class GoalRepository {
     }
 
     async deleteGoal(id: string): Promise<boolean> {
-        const { success } = await this.db.prepare(`DELETE FROM goals WHERE id = ?`).bind(id).run();
-        return success;
+        const { meta } = await this.db.prepare(`DELETE FROM goals WHERE id = ?`).bind(id).run();
+        return meta.changes > 0;
     }
 
     async deleteGoalLog(id: string): Promise<boolean> {
-        const { success } = await this.db.prepare(`DELETE FROM goal_logs WHERE id = ?`).bind(id).run();
-        return success;
+        const { meta } = await this.db.prepare(`DELETE FROM goal_logs WHERE id = ?`).bind(id).run();
+        return meta.changes > 0;
     }
 }

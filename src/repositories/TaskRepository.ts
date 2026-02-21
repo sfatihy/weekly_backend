@@ -27,7 +27,10 @@ export class TaskRepository {
 
     async getTasks(userId?: string): Promise<any[]> {
         if (userId) {
-            const { results } = await this.db.prepare(`SELECT * FROM tasks WHERE userId = ? ORDER BY startTime ASC`).bind(userId).all();
+            const { results } = await this.db.prepare(
+                `SELECT id, title, description, startTime, endTime, status, recurrence, deadlineDate, goalId, goalLogId 
+                 FROM tasks WHERE userId = ? ORDER BY startTime ASC`
+            ).bind(userId).all();
             return results;
         }
         const { results } = await this.db.prepare(`SELECT * FROM tasks ORDER BY startTime ASC`).all();
@@ -35,12 +38,35 @@ export class TaskRepository {
     }
 
     async updateTaskStatus(id: string, status: string): Promise<boolean> {
-        const { success } = await this.db.prepare(`UPDATE tasks SET status = ? WHERE id = ?`).bind(status, id).run();
-        return success;
+        const { meta } = await this.db.prepare(`UPDATE tasks SET status = ? WHERE id = ?`).bind(status, id).run();
+        return meta.changes > 0;
+    }
+
+    async updateTask(id: string, data: Partial<any>): Promise<boolean> {
+        const updates: string[] = [];
+        const bindings: any[] = [];
+
+        if (data.title !== undefined) { updates.push('title = ?'); bindings.push(data.title); }
+        if (data.description !== undefined) { updates.push('description = ?'); bindings.push(data.description); }
+        if (data.startTime !== undefined) { updates.push('startTime = ?'); bindings.push(data.startTime); }
+        if (data.endTime !== undefined) { updates.push('endTime = ?'); bindings.push(data.endTime); }
+        if (data.status !== undefined) { updates.push('status = ?'); bindings.push(data.status); }
+        if (data.recurrence !== undefined) { updates.push('recurrence = ?'); bindings.push(data.recurrence); }
+        if (data.deadlineDate !== undefined) { updates.push('deadlineDate = ?'); bindings.push(data.deadlineDate); }
+        if (data.goalId !== undefined) { updates.push('goalId = ?'); bindings.push(data.goalId); }
+        if (data.goalLogId !== undefined) { updates.push('goalLogId = ?'); bindings.push(data.goalLogId); }
+
+        if (updates.length === 0) return false;
+
+        bindings.push(id);
+        const query = `UPDATE tasks SET ${updates.join(', ')} WHERE id = ?`;
+
+        const { meta } = await this.db.prepare(query).bind(...bindings).run();
+        return meta.changes > 0;
     }
 
     async deleteTask(id: string): Promise<boolean> {
-        const { success } = await this.db.prepare(`DELETE FROM tasks WHERE id = ?`).bind(id).run();
-        return success;
+        const { meta } = await this.db.prepare(`DELETE FROM tasks WHERE id = ?`).bind(id).run();
+        return meta.changes > 0;
     }
 }
