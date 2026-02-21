@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import { UserRepository } from '../repositories/UserRepository'
 
 type Bindings = {
     DB: D1Database
@@ -9,9 +10,8 @@ const app = new Hono<{ Bindings: Bindings }>()
 app.post('/', async (c) => {
     try {
         const { id, email, name } = await c.req.json()
-        const { success } = await c.env.DB.prepare(
-            `INSERT INTO users (id, email, name) VALUES (?, ?, ?)`
-        ).bind(id, email, name).run()
+        const repo = new UserRepository(c.env.DB)
+        const success = await repo.createUser(id, email, name)
 
         if (success) return c.json({ message: 'User created' }, 201)
         return c.json({ error: 'Failed' }, 400)
@@ -22,7 +22,9 @@ app.post('/', async (c) => {
 
 app.get('/:id', async (c) => {
     const id = c.req.param('id')
-    const user = await c.env.DB.prepare(`SELECT * FROM users WHERE id = ?`).bind(id).first()
+    const repo = new UserRepository(c.env.DB)
+    const user = await repo.getUserById(id)
+
     if (!user) return c.json({ error: 'User not found' }, 404)
     return c.json(user)
 })

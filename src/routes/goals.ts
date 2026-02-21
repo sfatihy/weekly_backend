@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import { GoalRepository } from '../repositories/GoalRepository'
 
 type Bindings = {
     DB: D1Database
@@ -9,9 +10,8 @@ const app = new Hono<{ Bindings: Bindings }>()
 app.post('/', async (c) => {
     try {
         const { id, title, targetHours, period } = await c.req.json()
-        const { success } = await c.env.DB.prepare(
-            `INSERT INTO goals (id, title, targetHours, period) VALUES (?, ?, ?, ?)`
-        ).bind(id, title, targetHours, period).run()
+        const repo = new GoalRepository(c.env.DB)
+        const success = await repo.createGoal(id, title, targetHours, period)
 
         return c.json({ success }, 201)
     } catch (e: any) {
@@ -20,7 +20,9 @@ app.post('/', async (c) => {
 })
 
 app.get('/', async (c) => {
-    const { results } = await c.env.DB.prepare(`SELECT * FROM goals`).all()
+    const repo = new GoalRepository(c.env.DB)
+    const results = await repo.getAllGoals()
+
     return c.json(results)
 })
 
@@ -28,12 +30,9 @@ app.post('/:goalId/logs', async (c) => {
     try {
         const goalId = c.req.param('goalId')
         const { id, hours, timestamp, isCompleted } = await c.req.json()
-        const valCompleted = isCompleted ? 1 : 0
+        const repo = new GoalRepository(c.env.DB)
 
-        const { success } = await c.env.DB.prepare(
-            `INSERT INTO goal_logs (id, goalId, hours, timestamp, isCompleted) VALUES (?, ?, ?, ?, ?)`
-        ).bind(id, goalId, hours, timestamp, valCompleted).run()
-
+        const success = await repo.addGoalLog(id, goalId, hours, timestamp, isCompleted)
         return c.json({ success, message: "Log added" }, 201)
     } catch (e: any) {
         return c.json({ error: e.message }, 500)
@@ -42,7 +41,9 @@ app.post('/:goalId/logs', async (c) => {
 
 app.get('/:goalId/logs', async (c) => {
     const goalId = c.req.param('goalId')
-    const { results } = await c.env.DB.prepare(`SELECT * FROM goal_logs WHERE goalId = ?`).bind(goalId).all()
+    const repo = new GoalRepository(c.env.DB)
+
+    const results = await repo.getGoalLogs(goalId)
     return c.json(results)
 })
 

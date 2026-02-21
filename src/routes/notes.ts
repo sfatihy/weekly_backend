@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import { NoteRepository } from '../repositories/NoteRepository'
 
 type Bindings = {
     DB: D1Database
@@ -9,9 +10,9 @@ const app = new Hono<{ Bindings: Bindings }>()
 app.post('/', async (c) => {
     try {
         const { id, title, content, userId } = await c.req.json()
-        const { success } = await c.env.DB.prepare(
-            `INSERT INTO notes (id, title, content, userId) VALUES (?, ?, ?, ?)`
-        ).bind(id, title, content, userId).run()
+        const repo = new NoteRepository(c.env.DB)
+        const success = await repo.createNote(id, title, content, userId)
+
         return c.json({ success }, 201)
     } catch (e: any) {
         return c.json({ error: e.message }, 500)
@@ -20,11 +21,9 @@ app.post('/', async (c) => {
 
 app.get('/', async (c) => {
     const userId = c.req.query('userId')
-    if (userId) {
-        const { results } = await c.env.DB.prepare(`SELECT * FROM notes WHERE userId = ? ORDER BY updatedAt DESC`).bind(userId).all()
-        return c.json(results)
-    }
-    const { results } = await c.env.DB.prepare(`SELECT * FROM notes ORDER BY updatedAt DESC`).all()
+    const repo = new NoteRepository(c.env.DB)
+    const results = await repo.getNotes(userId)
+
     return c.json(results)
 })
 
