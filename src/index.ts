@@ -9,12 +9,14 @@ import goalsRoute from './routes/goals'
 import tasksRoute from './routes/tasks'
 import notesRoute from './routes/notes'
 import transactionsRoute from './routes/transactions'
+import authRoute from './routes/auth'
 
-import { apiKeyAuth } from './middlewares/auth'
+import { jwtAuth } from './middlewares/auth'
 
 type Bindings = {
   DB: D1Database
-  API_KEY: string
+  JWT_SECRET: string
+  REFRESH_SECRET: string
 }
 
 const app = new Hono<{ Bindings: Bindings }>()
@@ -26,12 +28,14 @@ app.get('/ui', swaggerUI({ url: '/doc' }))
 app.get('/doc', (c) => c.json(openApiSpec))
 app.get('/', (c) => c.text('Project Turtle D1 API is running! 🐢🚀'))
 
-// 🔒 PROTECTED ENDPOINTS (Middleware applied)
-app.use('/users/*', apiKeyAuth)
-app.use('/goals/*', apiKeyAuth)
-app.use('/tasks/*', apiKeyAuth)
-app.use('/notes/*', apiKeyAuth)
-app.use('/transactions/*', apiKeyAuth)
+app.route('/auth', authRoute) // Auth endpoints should be public
+
+// 🔒 PROTECTED ENDPOINTS (JWT Middleware applied)
+app.use('/users/*', jwtAuth)
+app.use('/goals/*', jwtAuth)
+app.use('/tasks/*', jwtAuth)
+app.use('/notes/*', jwtAuth)
+app.use('/transactions/*', jwtAuth)
 
 // MOUNTING ROUTES
 app.route('/users', usersRoute)

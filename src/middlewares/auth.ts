@@ -1,18 +1,23 @@
 import { Context, Next } from 'hono'
+import { verify } from 'hono/jwt'
 
-export const apiKeyAuth = async (c: Context, next: Next) => {
+export const jwtAuth = async (c: Context, next: Next) => {
     const authHeader = c.req.header('Authorization')
 
-    // Accept standard "Bearer <TOKEN>" format, or just the token itself
-    const providedKey = authHeader?.startsWith('Bearer ')
+    const token = authHeader?.startsWith('Bearer ')
         ? authHeader.split(' ')[1]
         : authHeader
 
-    const validKey = c.env.API_KEY
-
-    if (!providedKey || providedKey !== validKey) {
-        return c.json({ error: 'Unauthorized: Invalid or missing API Key' }, 401)
+    if (!token) {
+        return c.json({ error: 'Unauthorized: Missing token' }, 401)
     }
 
-    await next()
+    try {
+        const validPayload = await verify(token, c.env.JWT_SECRET, "HS256")
+        // Attach user information to context so routes can use it
+        c.set('user', validPayload)
+        await next()
+    } catch (err) {
+        return c.json({ error: 'Unauthorized: Invalid or expired token' }, 401)
+    }
 }

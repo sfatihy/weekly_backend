@@ -31,6 +31,7 @@ export const openApiSpec = {
         }
     ],
     tags: [
+        { name: "Auth", description: "Authentication and JWT issuance" },
         { name: "Users", description: "User management endpoints" },
         { name: "Goals", description: "Long-term goals and their progress logs" },
         { name: "Tasks", description: "Daily/Weekly tasks management" },
@@ -38,6 +39,69 @@ export const openApiSpec = {
         { name: "Finance", description: "Income and expense tracking" }
     ],
     paths: {
+        "/auth/register": {
+            post: {
+                tags: ["Auth"],
+                summary: "Register a new user",
+                requestBody: {
+                    required: true,
+                    content: {
+                        "application/json": {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    email: { type: "string" },
+                                    password: { type: "string" },
+                                    name: { type: "string" }
+                                }
+                            }
+                        }
+                    }
+                },
+                responses: { "201": { description: "User registered" } }
+            }
+        },
+        "/auth/login": {
+            post: {
+                tags: ["Auth"],
+                summary: "Login and receive tokens",
+                requestBody: {
+                    required: true,
+                    content: {
+                        "application/json": {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    email: { type: "string" },
+                                    password: { type: "string" }
+                                }
+                            }
+                        }
+                    }
+                },
+                responses: { "200": { description: "Tokens generated" } }
+            }
+        },
+        "/auth/refresh": {
+            post: {
+                tags: ["Auth"],
+                summary: "Refresh Access Token",
+                requestBody: {
+                    required: true,
+                    content: {
+                        "application/json": {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    refreshToken: { type: "string" }
+                                }
+                            }
+                        }
+                    }
+                },
+                responses: { "200": { description: "New Access Token generated" } }
+            }
+        },
         "/users": {
             post: {
                 tags: ["Users"],

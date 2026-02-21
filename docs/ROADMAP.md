@@ -8,7 +8,7 @@ This document serves as the main index for Project Turtle's vision and history. 
 
 ## Phase 2: API & Security (Next 🛠)
 - [x] [docs/changelog/003_auth_middleware.md](changelog/003_auth_middleware.md)
-- [ ] `docs/features/feature_002_route_security.md` *(Pending)*
+- [x] [docs/changelog/004_jwt_auth.md](changelog/004_jwt_auth.md)
 - [ ] `docs/features/feature_003_offline_sync.md` *(Pending)*
 
 ## Phase 3: Advanced Features (Planned 🗓)

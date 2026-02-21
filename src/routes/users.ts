@@ -1,5 +1,6 @@
 import { Hono } from 'hono'
 import { UserRepository } from '../repositories/UserRepository'
+import { hashPassword } from '../utils/hash'
 
 type Bindings = {
     DB: D1Database
@@ -9,9 +10,14 @@ const app = new Hono<{ Bindings: Bindings }>()
 
 app.post('/', async (c) => {
     try {
-        const { id, email, name } = await c.req.json()
+        const { id, email, name, password } = await c.req.json()
         const repo = new UserRepository(c.env.DB)
-        const success = await repo.createUser(id, email, name)
+
+        // Use provided password or generate a random one if hitting /users directly
+        const pwdToHash = password || crypto.randomUUID()
+        const passwordHash = await hashPassword(pwdToHash)
+
+        const success = await repo.createUser(id, email, passwordHash, name)
 
         if (success) return c.json({ message: 'User created' }, 201)
         return c.json({ error: 'Failed' }, 400)
