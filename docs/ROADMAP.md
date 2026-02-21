@@ -1,25 +1,22 @@
 # Project Turtle - Roadmap
 
-This document tracks the general vision, stages, and major features to be added in the future for Project Turtle. AI Agents should follow this path to see the next goals.
+This document serves as the main index for Project Turtle's vision and history. It links directly to detailed feature specifications or completed changelogs. AI Agents should refer to the linked files for details.
 
 ## Phase 1: Core Architecture (Completed ✅)
-- [x] Cloudflare D1 (SQL) database setup.
-- [x] Creation of REST API skeleton with Hono infrastructure.
-- [x] Repository Pattern implementation.
-- [x] Swagger UI integration.
-- [x] Live (Prod) deployment to Cloudflare environment.
-- [x] Establishment of AI-Driven Documentation (AIDD) structure in the `docs/` folder.
+- [x] [docs/changelog/001_project_init.md](changelog/001_project_init.md)
+- [x] [docs/changelog/002_repository_pattern.md](changelog/002_repository_pattern.md)
 
 ## Phase 2: API & Security (Next 🛠)
-- [ ] Adding simple API Key-based Authentication or Middleware.
-- [ ] Securing the routes.
-- [ ] Designing the Offline synchronization logic. (Accepting data that couldn't be sent on the Flutter side in bulk).
+- [x] [docs/changelog/003_auth_middleware.md](changelog/003_auth_middleware.md)
+- [ ] `docs/features/feature_002_route_security.md` *(Pending)*
+- [ ] `docs/features/feature_003_offline_sync.md` *(Pending)*
 
 ## Phase 3: Advanced Features (Planned 🗓)
-- [ ] Writing Statistics/Calculation routes (Report API) for users.
-- [ ] Aggregation SQL queries producing Goal Progress graph data.
-- [ ] Type & schema validation of incoming API data with Hono Validator (Zod).
+- [ ] `docs/features/feature_004_report_api.md` *(Planned)*
+- [ ] `docs/features/feature_005_goal_aggregation.md` *(Planned)*
+- [ ] `docs/features/feature_006_schema_validation.md` *(Planned)*
 
 ## AI Workflow Rules
-* If there is a request to proceed to Phase 2, the requirements of that feature must first be written into the `docs/features/` folder.
-* During development, this document should be updated and progress should be marked as `[x]`.
+* Roadmap does not store details. It only lists filenames.
+* If you need to know what was done, read the `[x]` checked files in `docs/changelog/`.
+* If a new task begins, its detailed requirements must first be written into the `docs/features/` folder and linked here.

@@ -26,7 +26,10 @@ This file serves as the main context and rulebook for any AI assistant (Cursor, 
 This project uses a file-based AI management system located in the `docs/` folder. **YOU MUST FOLLOW THESE RULES:**
 
 ### 1. Planning (ROADMAP)
-Never jump straight into coding a large feature. Check the `docs/ROADMAP.md` to understand where the project is heading. Update it if you complete a milestone.
+Never jump straight into coding. Check `docs/ROADMAP.md` to understand where the project is heading.
+- The ROADMAP serves as an index and does not hold detailed steps. It maps to filenames.
+- For `[x]` completed phases, refer to the files under `docs/changelog/` mapped in Roadmap.
+- For `[ ]` upcoming phases, refer to files under `docs/features/`.
 
 ### 2. Feature Implementation Lifecycle (features/ -> changelog/)
 If the USER asks you to start working on a specific feature:
