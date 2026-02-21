@@ -10,10 +10,22 @@ export const openApiSpec = {
             url: "http://localhost:8787",
             description: "Local Dev Server",
         },
+        {
+            url: "https://weekly_backend.seyitfatihyazici11.workers.dev",
+            description: "Production Server",
+        }
+    ],
+    tags: [
+        { name: "Users", description: "User management endpoints" },
+        { name: "Goals", description: "Long-term goals and their progress logs" },
+        { name: "Tasks", description: "Daily/Weekly tasks management" },
+        { name: "Notes", description: "User notebook and ideas" },
+        { name: "Finance", description: "Income and expense tracking" }
     ],
     paths: {
         "/users": {
             post: {
+                tags: ["Users"],
                 summary: "Create a new user",
                 requestBody: {
                     required: true,
@@ -33,10 +45,16 @@ export const openApiSpec = {
                 responses: {
                     "201": { description: "User created" }
                 }
+            },
+            get: {
+                tags: ["Users"],
+                summary: "Get all users (Requires expansion)",
+                responses: { "200": { description: "List of users" } }
             }
         },
         "/users/{id}": {
             get: {
+                tags: ["Users"],
                 summary: "Get user by ID",
                 parameters: [
                     { name: "id", in: "path", required: true, schema: { type: "string" } }
@@ -49,6 +67,7 @@ export const openApiSpec = {
         },
         "/goals": {
             post: {
+                tags: ["Goals"],
                 summary: "Create a new goal",
                 requestBody: {
                     required: true,
@@ -69,12 +88,14 @@ export const openApiSpec = {
                 responses: { "200": { description: "Goal created" } }
             },
             get: {
+                tags: ["Goals"],
                 summary: "Get all goals",
                 responses: { "200": { description: "List of goals" } }
             }
         },
         "/goals/{goalId}/logs": {
             post: {
+                tags: ["Goals"],
                 summary: "Add a progress log to a specific goal",
                 parameters: [
                     { name: "goalId", in: "path", required: true, schema: { type: "string" } }
@@ -98,6 +119,7 @@ export const openApiSpec = {
                 responses: { "201": { description: "Log added" } }
             },
             get: {
+                tags: ["Goals"],
                 summary: "Get logs for a specific goal",
                 parameters: [
                     { name: "goalId", in: "path", required: true, schema: { type: "string" } }
@@ -107,6 +129,7 @@ export const openApiSpec = {
         },
         "/tasks": {
             post: {
+                tags: ["Tasks"],
                 summary: "Create a new task",
                 requestBody: {
                     required: true,
@@ -133,6 +156,7 @@ export const openApiSpec = {
                 responses: { "200": { description: "Task created" } }
             },
             get: {
+                tags: ["Tasks"],
                 summary: "Get tasks",
                 parameters: [
                     { name: "userId", in: "query", schema: { type: "string" }, description: "Filter by User ID" }
@@ -142,6 +166,7 @@ export const openApiSpec = {
         },
         "/tasks/{id}/status": {
             put: {
+                tags: ["Tasks"],
                 summary: "Update task status",
                 parameters: [
                     { name: "id", in: "path", required: true, schema: { type: "string" } }
@@ -162,6 +187,7 @@ export const openApiSpec = {
         },
         "/notes": {
             post: {
+                tags: ["Notes"],
                 summary: "Create a new note",
                 requestBody: {
                     required: true,
@@ -182,6 +208,7 @@ export const openApiSpec = {
                 responses: { "200": { description: "Note created" } }
             },
             get: {
+                tags: ["Notes"],
                 summary: "Get notes",
                 parameters: [
                     { name: "userId", in: "query", schema: { type: "string" }, description: "Filter by User ID" }
@@ -191,6 +218,7 @@ export const openApiSpec = {
         },
         "/transactions": {
             post: {
+                tags: ["Finance"],
                 summary: "Create a new transaction",
                 requestBody: {
                     required: true,
@@ -214,6 +242,7 @@ export const openApiSpec = {
                 responses: { "200": { description: "Transaction created" } }
             },
             get: {
+                tags: ["Finance"],
                 summary: "Get transactions",
                 parameters: [
                     { name: "userId", in: "query", schema: { type: "string" }, description: "Filter by User ID" }
