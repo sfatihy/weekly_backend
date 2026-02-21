@@ -16,9 +16,10 @@ This document serves as the main index for Project Turtle's vision and history. 
 - [ ] `docs/features/feature_003_offline_sync.md` *(Pending)*
 
 ## Phase 3: Advanced Features (Planned 🗓)
+- [ ] `docs/features/feature_006_schema_validation.md` *(Planned - Zod edge parsing)*
+- [ ] `docs/features/feature_009_automated_testing.md` *(Planned - Vitest Integration)*
 - [ ] `docs/features/feature_004_report_api.md` *(Planned)*
 - [ ] `docs/features/feature_005_goal_aggregation.md` *(Planned)*
-- [ ] `docs/features/feature_006_schema_validation.md` *(Planned)*
 - [ ] `docs/features/feature_007_token_blacklist.md` *(Planned)*
 - [ ] `docs/features/feature_008_base_response.md` *(Planned)*
 
