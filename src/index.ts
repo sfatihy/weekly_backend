@@ -1,5 +1,7 @@
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
+import { swaggerUI } from '@hono/swagger-ui'
+import { openApiSpec } from './openapi'
 
 // Cloudflare ortamındaki 'DB' isimli D1 veritabanı değişkenini tanıtıyoruz.
 type Bindings = {
@@ -12,6 +14,9 @@ const app = new Hono<{ Bindings: Bindings }>()
 // CORS hatası almamak için tüm portları ve kaynakları (CORS) serbest bırakıyoruz.
 app.use('*', cors())
 
+// 🟢 SWAGGER UI ARAYÜZÜ VE DÖKÜMANTASYON API'Sİ
+app.get('/ui', swaggerUI({ url: '/doc' }))
+app.get('/doc', (c) => c.json(openApiSpec))
 
 // 🟢 TEMEL KONTROL (Sağlık kontrolü)
 app.get('/', (c) => {
