@@ -18,6 +18,7 @@ This document serves as the main index for Project Turtle's vision and history. 
 - [ ] `docs/features/feature_005_goal_aggregation.md` *(Planned)*
 - [ ] `docs/features/feature_006_schema_validation.md` *(Planned)*
 - [ ] `docs/features/feature_007_token_blacklist.md` *(Planned)*
+- [ ] `docs/features/feature_008_base_response.md` *(Planned)*
 
 ## AI Workflow Rules
 * Roadmap does not store details. It only lists filenames.
