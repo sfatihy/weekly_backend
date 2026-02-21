@@ -38,4 +38,9 @@ export class TaskRepository {
         const { success } = await this.db.prepare(`UPDATE tasks SET status = ? WHERE id = ?`).bind(status, id).run();
         return success;
     }
+
+    async deleteTask(id: string): Promise<boolean> {
+        const { success } = await this.db.prepare(`DELETE FROM tasks WHERE id = ?`).bind(id).run();
+        return success;
+    }
 }

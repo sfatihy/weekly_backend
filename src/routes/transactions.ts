@@ -38,4 +38,16 @@ app.get('/', async (c) => {
     return c.json(results)
 })
 
+app.delete('/:id', async (c) => {
+    const id = c.req.param('id')
+    const repo = new TransactionRepository(c.env.DB)
+    const success = await repo.deleteTransaction(id)
+
+    if (!success) {
+        return c.json({ error: 'Failed to delete transaction or transaction not found' }, 404)
+    }
+
+    return c.json({ message: 'Transaction deleted successfully' }, 200)
+})
+
 export default app

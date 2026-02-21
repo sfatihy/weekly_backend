@@ -36,21 +36,26 @@ The system uses JWT (JSON Web Tokens). You **must** implement the following logi
 ### 2. Goals (`/goals`)
 - `POST /goals`: Create a new Goal (`id`, `title`, `targetHours`, `period`).
 - `GET /goals`: Fetch all Goals.
+- `DELETE /goals/{goalId}`: Delete a goal.
 - `POST /goals/{goalId}/logs`: Add progress (`id`, `hours`, `timestamp` as ISO8601 string, `isCompleted` boolean).
 - `GET /goals/{goalId}/logs`: View progress for a specific goal.
+- `DELETE /goals/{goalId}/logs/{logId}`: Delete a specific progress log.
 
 ### 3. Tasks (`/tasks`)
 - `POST /tasks`: Create task (`id`, `title`, `description`, `startTime`, `endTime`, `status`, `recurrence`, `goalId`, `goalLogId`). *Note: Time formats should be ISO8601.*
 - `GET /tasks`: Fetch tasks for the current user.
 - `PUT /tasks/{id}/status`: Update task status. Body: `{"status": "Completed"}`.
+- `DELETE /tasks/{id}`: Delete a task.
 
 ### 4. Notes (`/notes`)
 - `POST /notes`: Create note (`id`, `title`, `content`).
 - `GET /notes`: Fetch user notes.
+- `DELETE /notes/{id}`: Delete a note.
 
 ### 5. Transactions (`/transactions`) (Finance)
 - `POST /transactions`: Basic income/expense. (`id`, `title`, `amount`, `type`, `date`, `category`).
 - `GET /transactions`: View transactions.
+- `DELETE /transactions/{id}`: Delete a transaction.
 
 ## 🛠 Required Flutter Packages (AI Developer Notice)
 When building the client, you are highly encouraged to use:

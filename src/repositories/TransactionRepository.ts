@@ -20,4 +20,9 @@ export class TransactionRepository {
         const { results } = await this.db.prepare(`SELECT * FROM transactions ORDER BY date DESC`).all();
         return results;
     }
+
+    async deleteTransaction(id: string): Promise<boolean> {
+        const { success } = await this.db.prepare(`DELETE FROM transactions WHERE id = ?`).bind(id).run();
+        return success;
+    }
 }

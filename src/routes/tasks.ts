@@ -47,4 +47,16 @@ app.put('/:id/status', async (c) => {
     return c.json({ success })
 })
 
+app.delete('/:id', async (c) => {
+    const id = c.req.param('id')
+    const repo = new TaskRepository(c.env.DB)
+    const success = await repo.deleteTask(id)
+
+    if (!success) {
+        return c.json({ error: 'Failed to delete task or task not found' }, 404)
+    }
+
+    return c.json({ message: 'Task deleted successfully' }, 200)
+})
+
 export default app

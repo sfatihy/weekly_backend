@@ -29,4 +29,14 @@ export class GoalRepository {
         const { results } = await this.db.prepare(`SELECT * FROM goal_logs WHERE goalId = ?`).bind(goalId).all();
         return results;
     }
+
+    async deleteGoal(id: string): Promise<boolean> {
+        const { success } = await this.db.prepare(`DELETE FROM goals WHERE id = ?`).bind(id).run();
+        return success;
+    }
+
+    async deleteGoalLog(id: string): Promise<boolean> {
+        const { success } = await this.db.prepare(`DELETE FROM goal_logs WHERE id = ?`).bind(id).run();
+        return success;
+    }
 }

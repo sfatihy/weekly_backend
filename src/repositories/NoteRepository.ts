@@ -20,4 +20,9 @@ export class NoteRepository {
         const { results } = await this.db.prepare(`SELECT * FROM notes ORDER BY updatedAt DESC`).all();
         return results;
     }
+
+    async deleteNote(id: string): Promise<boolean> {
+        const { success } = await this.db.prepare(`DELETE FROM notes WHERE id = ?`).bind(id).run();
+        return success;
+    }
 }

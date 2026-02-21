@@ -47,4 +47,28 @@ app.get('/:goalId/logs', async (c) => {
     return c.json(results)
 })
 
+app.delete('/:goalId', async (c) => {
+    const goalId = c.req.param('goalId')
+    const repo = new GoalRepository(c.env.DB)
+    const success = await repo.deleteGoal(goalId)
+
+    if (!success) {
+        return c.json({ error: 'Failed to delete goal or goal not found' }, 404)
+    }
+
+    return c.json({ message: 'Goal deleted successfully' }, 200)
+})
+
+app.delete('/:goalId/logs/:logId', async (c) => {
+    const logId = c.req.param('logId')
+    const repo = new GoalRepository(c.env.DB)
+    const success = await repo.deleteGoalLog(logId)
+
+    if (!success) {
+        return c.json({ error: 'Failed to delete goal log or log not found' }, 404)
+    }
+
+    return c.json({ message: 'Goal log deleted successfully' }, 200)
+})
+
 export default app

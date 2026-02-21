@@ -38,4 +38,16 @@ app.get('/', async (c) => {
     return c.json(results)
 })
 
+app.delete('/:id', async (c) => {
+    const id = c.req.param('id')
+    const repo = new NoteRepository(c.env.DB)
+    const success = await repo.deleteNote(id)
+
+    if (!success) {
+        return c.json({ error: 'Failed to delete note or note not found' }, 404)
+    }
+
+    return c.json({ message: 'Note deleted successfully' }, 200)
+})
+
 export default app

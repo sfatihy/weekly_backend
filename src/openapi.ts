@@ -142,6 +142,14 @@ export const openApiSpec = {
                     "200": { description: "User found" },
                     "404": { description: "User not found" }
                 }
+            },
+            delete: {
+                tags: ["Users"],
+                summary: "Delete a user",
+                parameters: [
+                    { name: "id", in: "path", required: true, schema: { type: "string" } }
+                ],
+                responses: { "200": { description: "User deleted" } }
             }
         },
         "/goals": {
@@ -170,6 +178,16 @@ export const openApiSpec = {
                 tags: ["Goals"],
                 summary: "Get all goals",
                 responses: { "200": { description: "List of goals" } }
+            }
+        },
+        "/goals/{goalId}": {
+            delete: {
+                tags: ["Goals"],
+                summary: "Delete a goal",
+                parameters: [
+                    { name: "goalId", in: "path", required: true, schema: { type: "string" } }
+                ],
+                responses: { "200": { description: "Goal deleted" } }
             }
         },
         "/goals/{goalId}/logs": {
@@ -204,6 +222,17 @@ export const openApiSpec = {
                     { name: "goalId", in: "path", required: true, schema: { type: "string" } }
                 ],
                 responses: { "200": { description: "List of logs" } }
+            }
+        },
+        "/goals/{goalId}/logs/{logId}": {
+            delete: {
+                tags: ["Goals"],
+                summary: "Delete a goal log",
+                parameters: [
+                    { name: "goalId", in: "path", required: true, schema: { type: "string" } },
+                    { name: "logId", in: "path", required: true, schema: { type: "string" } }
+                ],
+                responses: { "200": { description: "Goal log deleted" } }
             }
         },
         "/tasks": {
@@ -260,6 +289,16 @@ export const openApiSpec = {
                 responses: { "200": { description: "Task status updated" } }
             }
         },
+        "/tasks/{id}": {
+            delete: {
+                tags: ["Tasks"],
+                summary: "Delete a task",
+                parameters: [
+                    { name: "id", in: "path", required: true, schema: { type: "string" } }
+                ],
+                responses: { "200": { description: "Task deleted" } }
+            }
+        },
         "/notes": {
             post: {
                 tags: ["Notes"],
@@ -285,6 +324,16 @@ export const openApiSpec = {
                 summary: "Get notes",
                 parameters: [],
                 responses: { "200": { description: "List of notes" } }
+            }
+        },
+        "/notes/{id}": {
+            delete: {
+                tags: ["Notes"],
+                summary: "Delete a note",
+                parameters: [
+                    { name: "id", in: "path", required: true, schema: { type: "string" } }
+                ],
+                responses: { "200": { description: "Note deleted" } }
             }
         },
         "/transactions": {
@@ -315,6 +364,16 @@ export const openApiSpec = {
                 summary: "Get transactions",
                 parameters: [],
                 responses: { "200": { description: "List of transactions" } }
+            }
+        },
+        "/transactions/{id}": {
+            delete: {
+                tags: ["Finance"],
+                summary: "Delete a transaction",
+                parameters: [
+                    { name: "id", in: "path", required: true, schema: { type: "string" } }
+                ],
+                responses: { "200": { description: "Transaction deleted" } }
             }
         }
     }

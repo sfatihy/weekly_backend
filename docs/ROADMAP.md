@@ -10,6 +10,7 @@ This document serves as the main index for Project Turtle's vision and history. 
 - [x] [docs/changelog/003_auth_middleware.md](changelog/003_auth_middleware.md)
 - [x] [docs/changelog/004_jwt_auth.md](changelog/004_jwt_auth.md)
 - [x] [docs/changelog/005_jwt_user_id_injection.md](changelog/005_jwt_user_id_injection.md)
+- [x] [docs/changelog/006_delete_endpoints.md](changelog/006_delete_endpoints.md)
 - [ ] `docs/features/feature_003_offline_sync.md` *(Pending)*
 
 ## Phase 3: Advanced Features (Planned 🗓)
