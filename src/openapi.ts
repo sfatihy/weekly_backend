@@ -15,6 +15,21 @@ export const openApiSpec = {
             description: "Production Server",
         }
     ],
+    components: {
+        securitySchemes: {
+            ApiKeyAuth: {
+                type: "http",
+                scheme: "bearer",
+                bearerFormat: "API Key",
+                description: "Enter your API Key as a Bearer token"
+            }
+        }
+    },
+    security: [
+        {
+            ApiKeyAuth: []
+        }
+    ],
     tags: [
         { name: "Users", description: "User management endpoints" },
         { name: "Goals", description: "Long-term goals and their progress logs" },
