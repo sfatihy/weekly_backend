@@ -222,9 +222,7 @@ export const openApiSpec = {
                                     description: { type: "string" },
                                     startTime: { type: "string", format: "date-time" },
                                     endTime: { type: "string", format: "date-time" },
-                                    status: { type: "string" },
                                     recurrence: { type: "string" },
-                                    userId: { type: "string" },
                                     goalId: { type: "string" },
                                     goalLogId: { type: "string" }
                                 }
@@ -237,9 +235,7 @@ export const openApiSpec = {
             get: {
                 tags: ["Tasks"],
                 summary: "Get tasks",
-                parameters: [
-                    { name: "userId", in: "query", schema: { type: "string" }, description: "Filter by User ID" }
-                ],
+                parameters: [],
                 responses: { "200": { description: "List of tasks" } }
             }
         },
@@ -275,10 +271,8 @@ export const openApiSpec = {
                             schema: {
                                 type: "object",
                                 properties: {
-                                    id: { type: "string" },
                                     title: { type: "string" },
-                                    content: { type: "string" },
-                                    userId: { type: "string" }
+                                    content: { type: "string" }
                                 }
                             }
                         }
@@ -289,9 +283,7 @@ export const openApiSpec = {
             get: {
                 tags: ["Notes"],
                 summary: "Get notes",
-                parameters: [
-                    { name: "userId", in: "query", schema: { type: "string" }, description: "Filter by User ID" }
-                ],
+                parameters: [],
                 responses: { "200": { description: "List of notes" } }
             }
         },
@@ -308,11 +300,9 @@ export const openApiSpec = {
                                 properties: {
                                     id: { type: "string" },
                                     title: { type: "string" },
-                                    amount: { type: "number" },
                                     type: { type: "string" },
                                     date: { type: "string", format: "date-time" },
-                                    category: { type: "string" },
-                                    userId: { type: "string" }
+                                    category: { type: "string" }
                                 }
                             }
                         }
@@ -323,9 +313,7 @@ export const openApiSpec = {
             get: {
                 tags: ["Finance"],
                 summary: "Get transactions",
-                parameters: [
-                    { name: "userId", in: "query", schema: { type: "string" }, description: "Filter by User ID" }
-                ],
+                parameters: [],
                 responses: { "200": { description: "List of transactions" } }
             }
         }

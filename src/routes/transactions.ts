@@ -5,11 +5,21 @@ type Bindings = {
     DB: D1Database
 }
 
-const app = new Hono<{ Bindings: Bindings }>()
+type Variables = {
+    user: {
+        id: string
+        email: string
+        exp: number
+    }
+}
+
+const app = new Hono<{ Bindings: Bindings, Variables: Variables }>()
 
 app.post('/', async (c) => {
     try {
         const body = await c.req.json()
+        const user = c.get('user')
+        body.userId = user.id
         const repo = new TransactionRepository(c.env.DB)
         const success = await repo.createTransaction(body)
 
@@ -20,7 +30,8 @@ app.post('/', async (c) => {
 })
 
 app.get('/', async (c) => {
-    const userId = c.req.query('userId')
+    const user = c.get('user')
+    const userId = user.id
     const repo = new TransactionRepository(c.env.DB)
     const results = await repo.getTransactions(userId)
 

@@ -40,17 +40,17 @@ The system uses JWT (JSON Web Tokens). You **must** implement the following logi
 - `GET /goals/{goalId}/logs`: View progress for a specific goal.
 
 ### 3. Tasks (`/tasks`)
-- `POST /tasks`: Create task (`id`, `title`, `description`, `startTime`, `endTime`, `status`, `recurrence`, `userId`, `goalId`, `goalLogId`). *Note: Time formats should be ISO8601.*
-- `GET /tasks?userId={id}`: Fetch tasks for the current user.
+- `POST /tasks`: Create task (`id`, `title`, `description`, `startTime`, `endTime`, `status`, `recurrence`, `goalId`, `goalLogId`). *Note: Time formats should be ISO8601.*
+- `GET /tasks`: Fetch tasks for the current user.
 - `PUT /tasks/{id}/status`: Update task status. Body: `{"status": "Completed"}`.
 
 ### 4. Notes (`/notes`)
-- `POST /notes`: Create note (`id`, `title`, `content`, `userId`).
-- `GET /notes?userId={id}`: Fetch user notes.
+- `POST /notes`: Create note (`id`, `title`, `content`).
+- `GET /notes`: Fetch user notes.
 
 ### 5. Transactions (`/transactions`) (Finance)
-- `POST /transactions`: Basic income/expense. (`id`, `title`, `amount`, `type`, `date`, `category`, `userId`).
-- `GET /transactions?userId={id}`: View transactions.
+- `POST /transactions`: Basic income/expense. (`id`, `title`, `amount`, `type`, `date`, `category`).
+- `GET /transactions`: View transactions.
 
 ## 🛠 Required Flutter Packages (AI Developer Notice)
 When building the client, you are highly encouraged to use:

@@ -9,12 +9,14 @@ This document serves as the main index for Project Turtle's vision and history. 
 ## Phase 2: API & Security (Next 🛠)
 - [x] [docs/changelog/003_auth_middleware.md](changelog/003_auth_middleware.md)
 - [x] [docs/changelog/004_jwt_auth.md](changelog/004_jwt_auth.md)
+- [x] [docs/changelog/005_jwt_user_id_injection.md](changelog/005_jwt_user_id_injection.md)
 - [ ] `docs/features/feature_003_offline_sync.md` *(Pending)*
 
 ## Phase 3: Advanced Features (Planned 🗓)
 - [ ] `docs/features/feature_004_report_api.md` *(Planned)*
 - [ ] `docs/features/feature_005_goal_aggregation.md` *(Planned)*
 - [ ] `docs/features/feature_006_schema_validation.md` *(Planned)*
+- [ ] `docs/features/feature_007_token_blacklist.md` *(Planned)*
 
 ## AI Workflow Rules
 * Roadmap does not store details. It only lists filenames.
