@@ -1,25 +1,25 @@
 # Project Turtle - Roadmap
 
-Bu belge, Project Turtle projesinin genel vizyonunu, aşamalarını ve gelecekte eklenecek büyük özellikleri takip eder. Yapay zeka ajanları (AI Agents) bir sonraki hedefleri görmek için bu yolu izlemelidir.
+This document tracks the general vision, stages, and major features to be added in the future for Project Turtle. AI Agents should follow this path to see the next goals.
 
-## Aşama 1: Temel Mimari (Tamamlandı ✅)
-- [x] Cloudflare D1 (SQL) veritabanı kurulumu.
-- [x] Hono altyapısı ile REST API iskeletinin oluşturulması.
-- [x] Repository Patern implementasyonu.
-- [x] Swagger UI entegrasyonu.
-- [x] Cloudflare ortamına canlı (Prod) dağıtım (Deployment).
-- [x] `docs/` klasöründe AI-Driven Documentation (AIDD) yapısının kurulması.
+## Phase 1: Core Architecture (Completed ✅)
+- [x] Cloudflare D1 (SQL) database setup.
+- [x] Creation of REST API skeleton with Hono infrastructure.
+- [x] Repository Pattern implementation.
+- [x] Swagger UI integration.
+- [x] Live (Prod) deployment to Cloudflare environment.
+- [x] Establishment of AI-Driven Documentation (AIDD) structure in the `docs/` folder.
 
-## Aşama 2: API & Güvenlik (Sıradaki 🛠)
-- [ ] API Key tabanlı basit bir kimlik doğrulama (Authentication) veya Middleware eklenmesi.
-- [ ] Rotaların güvenliğini sağlama.
-- [ ] Çevrimdışı (Offline) senkronizasyon mantığının tasarımı. (Flutter tarafında gönderilemeyen verilerin bulk olarak kabul edilmesi).
+## Phase 2: API & Security (Next 🛠)
+- [ ] Adding simple API Key-based Authentication or Middleware.
+- [ ] Securing the routes.
+- [ ] Designing the Offline synchronization logic. (Accepting data that couldn't be sent on the Flutter side in bulk).
 
-## Aşama 3: Gelişmiş Özellikler (Planlanıyor 🗓)
-- [ ] Kullanıcılar için İstatistik/Hesaplama rotalarının (Report API) yazılması.
-- [ ] Hedef bazlı (Goal Progress) grafik verisi üreten Aggregation SQL sorguları.
-- [ ] Hono Validator ile gelen API verilerinin tip & şema doğrulaması (Zod).
+## Phase 3: Advanced Features (Planned 🗓)
+- [ ] Writing Statistics/Calculation routes (Report API) for users.
+- [ ] Aggregation SQL queries producing Goal Progress graph data.
+- [ ] Type & schema validation of incoming API data with Hono Validator (Zod).
 
-## AI Çalışma Kuralları
-* Eğer Aşama 2'ye geçmek istenirse, öncelikle `docs/features/` klasörüne o özelliğin gereksinimleri yazılmalıdır.
-* Geliştirme süresince bu belge güncellenmeli ve ilerlemeler `[x]` olarak işaretlenmelidir.
+## AI Workflow Rules
+* If there is a request to proceed to Phase 2, the requirements of that feature must first be written into the `docs/features/` folder.
+* During development, this document should be updated and progress should be marked as `[x]`.

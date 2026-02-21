@@ -1,8 +1,8 @@
-# Dökümantasyon ve Local Test Görev Listesi
+# Documentation and Local Test Task List
 
-## Adımlar
-- [x] `docs/ai/` klasörü projenin kök dizinine oluşturulacak.
-- [/] Şu ana kadar olan gizli `task.md` ve `implementation_plan.md` dosyaları okunup bu yeni `docs/ai/` dizinine kopyalanacak.
-- [ ] Uygulama mimarisini (D1, Hono, Hive, Repository Pattern) özetleyen bir `AI_CONTEXT.md` (veya .cursorrules) dosyası oluşturulacak.
-- [ ] Bu `docs/` klasörü projedeki `git` deposuna eklenecek ve commit'lenecek.
-- [ ] Swagger üzerinden localhost test edilecek (Yerel kontrol adımları).
+## Steps
+- [x] Create `docs/ai/` folder in the root directory of the project.
+- [x] Read the hidden `task.md` and `implementation_plan.md` files up to now and copy them to this new `docs/ai/` directory.
+- [x] Create an `AI_CONTEXT.md` (or .cursorrules) file summarizing the application architecture (D1, Hono, Hive, Repository Pattern).
+- [x] Add this `docs/` folder to the `git` repository in the project and commit.
+- [x] Test localhost via Swagger (Local control steps).
