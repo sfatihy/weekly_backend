@@ -39,11 +39,14 @@ If the USER asks you to start working on a specific feature:
 4.  Once completed and tested, write a summary of what you did into a new file inside `docs/changelog/` (e.g., `003_implemented_auth.md`).
 5.  This way, `docs/features` remains the backlog, and `docs/changelog` acts as our completed history.
 
-### 3. Deployment & Testing
+### 3. Deployment & Testing (LOCAL ONLY = CRITICAL)
    Always test the code locally using:
-   *   `npm run dev`
+   *   `npm run dev` (we use the `dev` branch locally with local DB)
    *   Swagger UI: `http://localhost:8787/ui`
-   *   ONLY WHEN SUCCESSFUL: deploy using `npm run deploy` if the user requires production release.
+   
+   **CRITICAL DEPLOYMENT RULES:**
+   * **NEVER execute a production deployment (`npm run deploy`)** unless explicitly, manually requested by the user. Cloudflare CI/CD will auto-deploy pushes to the `main` branch.
+   * **NEVER execute D1 commands against production**. All `wrangler d1 execute` or schema migrations MUST use the `--local` flag so we don't pollute the production database during development. Example: `npx wrangler d1 execute project-turtle-db --local --file=schema.sql`
 
 ---
 *Maintained by Gemini. AI Agents: Do not remove these rules, only expand them.*

@@ -12,15 +12,15 @@ export class TaskRepository {
         ).bind(
             data.id,
             data.title,
-            data.description || null,
+            data.description ?? null,
             data.startTime,
             data.endTime,
-            data.status || 'pending',
-            data.recurrence || 'none',
-            data.deadlineDate || null,
-            data.goalId || null,
-            data.goalLogId || null,
-            data.userId || null
+            data.status ?? 'pending',
+            data.recurrence ?? 'none',
+            data.deadlineDate ?? null,
+            data.goalId ?? null,
+            data.goalLogId ?? null,
+            data.userId ?? null
         ).run();
         return success;
     }

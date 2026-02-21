@@ -12,7 +12,7 @@ This document describes the Backend (Cloudflare Workers + Hono + D1) Architectur
 The system uses JWT (JSON Web Tokens). You **must** implement the following logic in Flutter:
 1. Interceptors (`dio` or `http` adapter) should attach the `Authorization: Bearer <accessToken>` header to **all** private API calls.
 2. If a `401 Unauthorized` arrives, intercept it and call `POST /auth/refresh` with the `refreshToken`.
-3. If successful, save new tokens (e.g., in `flutter_secure_storage`) and retry the original request.
+3. If successful, save **both new tokens** (`accessToken` and `refreshToken`) securely and retry the original request.
 4. If refresh fails, log the user out and redirect to the Login Screen.
 
 ### Authentication Endpoints (PUBLIC)
@@ -26,7 +26,7 @@ The system uses JWT (JSON Web Tokens). You **must** implement the following logi
 
 - `POST /auth/refresh`
   - Body: `{"refreshToken": "<saved_token>"}`
-  - Response (200): `accessToken`
+  - Response (200): `accessToken` and `refreshToken` (You MUST overwrite your old refresh token)
 
 ## 📂 Protected Endpoints (Requires Bearer Token)
 

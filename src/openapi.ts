@@ -99,7 +99,7 @@ export const openApiSpec = {
                         }
                     }
                 },
-                responses: { "200": { description: "New Access Token generated" } }
+                responses: { "200": { description: "New Access Token and Refresh Token generated" } }
             }
         },
         "/users": {

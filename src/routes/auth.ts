@@ -30,7 +30,7 @@ app.post('/register', async (c) => {
 
         // Generate Tokens
         const accessToken = await sign({ id, email, exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 }, c.env.JWT_SECRET) // 1 day
-        const refreshToken = await sign({ id, exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30 }, c.env.REFRESH_SECRET) // 30 days
+        const refreshToken = await sign({ id, version: 0, exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30 }, c.env.REFRESH_SECRET) // 30 days
 
         return c.json({ message: 'User registered successfully', accessToken, refreshToken }, 201)
     } catch (e: any) {
@@ -53,7 +53,7 @@ app.post('/login', async (c) => {
 
         // Generate Tokens
         const accessToken = await sign({ id: user.id, email: user.email, exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 }, c.env.JWT_SECRET)
-        const refreshToken = await sign({ id: user.id, exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30 }, c.env.REFRESH_SECRET)
+        const refreshToken = await sign({ id: user.id, version: user.tokenVersion || 0, exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30 }, c.env.REFRESH_SECRET)
 
         return c.json({ message: 'Login successful', accessToken, refreshToken }, 200)
     } catch (e: any) {
@@ -77,10 +77,20 @@ app.post('/refresh', async (c) => {
 
         if (!user) return c.json({ error: 'User not found' }, 404)
 
-        // Generate new Access Token
-        const newAccessToken = await sign({ id: user.id, email: user.email, exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 }, c.env.JWT_SECRET)
+        // Check token version to prevent reuse (Token Rotation)
+        if (decoded.version !== user.tokenVersion) {
+            // Potential reuse detected, we could also revoke all tokens by incrementing version here.
+            return c.json({ error: 'Refresh token has been revoked or already used' }, 401)
+        }
 
-        return c.json({ accessToken: newAccessToken }, 200)
+        // Increment token version in the DB
+        const newVersion = await repo.incrementTokenVersion(user.id)
+
+        // Generate new Access and Refresh Tokens
+        const newAccessToken = await sign({ id: user.id, email: user.email, exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 }, c.env.JWT_SECRET)
+        const newRefreshToken = await sign({ id: user.id, version: newVersion, exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30 }, c.env.REFRESH_SECRET)
+
+        return c.json({ accessToken: newAccessToken, refreshToken: newRefreshToken }, 200)
     } catch (e: any) {
         return c.json({ error: 'Invalid or expired refresh token' }, 401)
     }
