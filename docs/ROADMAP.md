@@ -13,6 +13,7 @@ This document serves as the main index for Project Turtle's vision and history. 
 - [x] [docs/changelog/006_delete_endpoints.md](changelog/006_delete_endpoints.md)
 - [x] [docs/changelog/007_token_rotation_and_fixes.md](changelog/007_token_rotation_and_fixes.md)
 - [x] [docs/changelog/008_api_refinements.md](changelog/008_api_refinements.md)
+- [x] [docs/changelog/009_goal_refactoring.md](changelog/009_goal_refactoring.md)
 - [ ] `docs/features/feature_003_offline_sync.md` *(Pending)*
 
 ## Phase 3: Advanced Features (Planned 🗓)

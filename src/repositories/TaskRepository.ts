@@ -7,7 +7,7 @@ export class TaskRepository {
 
     async createTask(data: any): Promise<boolean> {
         const { success } = await this.db.prepare(
-            `INSERT INTO tasks (id, title, description, startTime, endTime, status, recurrence, deadlineDate, goalId, goalLogId, userId) 
+            `INSERT INTO tasks (id, title, description, startTime, endTime, status, recurrence, deadlineDate, goalId, isGoalLog, userId) 
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
         ).bind(
             data.id,
@@ -19,7 +19,7 @@ export class TaskRepository {
             data.recurrence ?? 'none',
             data.deadlineDate ?? null,
             data.goalId ?? null,
-            data.goalLogId ?? null,
+            data.isGoalLog ? 1 : 0,
             data.userId ?? null
         ).run();
         return success;
@@ -28,7 +28,7 @@ export class TaskRepository {
     async getTasks(userId?: string): Promise<any[]> {
         if (userId) {
             const { results } = await this.db.prepare(
-                `SELECT id, title, description, startTime, endTime, status, recurrence, deadlineDate, goalId, goalLogId 
+                `SELECT id, title, description, startTime, endTime, status, recurrence, deadlineDate, goalId, isGoalLog 
                  FROM tasks WHERE userId = ? ORDER BY startTime ASC`
             ).bind(userId).all();
             return results;
@@ -54,7 +54,7 @@ export class TaskRepository {
         if (data.recurrence !== undefined) { updates.push('recurrence = ?'); bindings.push(data.recurrence); }
         if (data.deadlineDate !== undefined) { updates.push('deadlineDate = ?'); bindings.push(data.deadlineDate); }
         if (data.goalId !== undefined) { updates.push('goalId = ?'); bindings.push(data.goalId); }
-        if (data.goalLogId !== undefined) { updates.push('goalLogId = ?'); bindings.push(data.goalLogId); }
+        if (data.isGoalLog !== undefined) { updates.push('isGoalLog = ?'); bindings.push(data.isGoalLog ? 1 : 0); }
 
         if (updates.length === 0) return false;
 

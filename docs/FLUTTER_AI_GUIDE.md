@@ -35,14 +35,15 @@ The system uses JWT (JSON Web Tokens). You **must** implement the following logi
 
 ### 2. Goals (`/goals`)
 - `POST /goals`: Create a new Goal (`title`, `targetHours`, `period`).
-- `GET /goals`: Fetch all Goals.
-- `DELETE /goals/{goalId}`: Delete a goal.
-- `POST /goals/{goalId}/logs`: Add progress (`hours`, `timestamp` as ISO8601 string, `isCompleted` boolean).
-- `GET /goals/{goalId}/logs`: View progress for a specific goal.
-- `DELETE /goals/{goalId}/logs/{logId}`: Delete a specific progress log.
+- `GET /goals`: Fetch all Goals. *(Note: This automatically returns standard goal info, plus a pre-calculated `loggedHours` sum and a nested `tasks` array.)*
+- `PUT /goals/{id}`: Update specific Goal elements (`title`, `targetHours`, `period`).
+- `DELETE /goals/{id}`: Delete a goal.
+
+> **Time Tracking Logic (for AI Dev):** The Backend inherently calculates Goal Progress for you. `GET /goals` will summarize the total time of all `completed` tasks assigned to that `goalId`. Simply read the `.loggedHours` property.
 
 ### 3. Tasks (`/tasks`)
-- `POST /tasks`: Create task (`title`, `description`, `startTime`, `endTime`, `status`, `recurrence`, `goalId`, `goalLogId`). *Note: Time formats should be ISO8601.*
+- `POST /tasks`: Create task (`title`, `description`, `startTime`, `endTime`, `status`, `recurrence`, `goalId`, `isGoalLog`). 
+  - *Tip: Set `isGoalLog: true` when a user uses a '+' Quick Log button. You can then filter these out of the main visual calendar view so they act purely as time logs.*
 - `GET /tasks`: Fetch tasks for the current user.
 - `PUT /tasks/{id}`: Update task properties (`title`, `description`, `status` etc). `status` must be 'pending' or 'completed'.
 - `PUT /tasks/{id}/status`: Update task status. Body: `{"status": "completed"}`.
