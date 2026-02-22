@@ -21,4 +21,14 @@ export class UserRepository {
         const user = await this.db.prepare(`SELECT * FROM users WHERE email = ?`).bind(email).first();
         return user;
     }
+
+    async incrementTokenVersion(id: string): Promise<number> {
+        // Fetch current to increment safely
+        const user = await this.getUserById(id);
+        if (!user) return 0;
+
+        const newVersion = (user.tokenVersion || 0) + 1;
+        await this.db.prepare(`UPDATE users SET tokenVersion = ? WHERE id = ?`).bind(newVersion, id).run();
+        return newVersion;
+    }
 }

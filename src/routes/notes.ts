@@ -17,13 +17,14 @@ const app = new Hono<{ Bindings: Bindings, Variables: Variables }>()
 
 app.post('/', async (c) => {
     try {
-        const { id, title, content } = await c.req.json()
+        const { title, content } = await c.req.json()
+        const id = crypto.randomUUID()
         const user = c.get('user')
         const userId = user.id
         const repo = new NoteRepository(c.env.DB)
         const success = await repo.createNote(id, title, content, userId)
 
-        return c.json({ success }, 201)
+        return c.json({ success, id }, 201)
     } catch (e: any) {
         return c.json({ error: e.message }, 500)
     }

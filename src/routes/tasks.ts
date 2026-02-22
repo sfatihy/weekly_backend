@@ -20,10 +20,11 @@ app.post('/', async (c) => {
         const body = await c.req.json()
         const user = c.get('user')
         body.userId = user.id
+        body.id = crypto.randomUUID()
         const repo = new TaskRepository(c.env.DB)
         const success = await repo.createTask(body)
 
-        return c.json({ success }, 201)
+        return c.json({ success, id: body.id }, 201)
     } catch (e: any) {
         return c.json({ error: e.message }, 500)
     }
@@ -41,10 +42,29 @@ app.get('/', async (c) => {
 app.put('/:id/status', async (c) => {
     const id = c.req.param('id')
     const { status } = await c.req.json()
+    if (status !== 'pending' && status !== 'completed') {
+        return c.json({ error: 'Invalid status. Must be pending or completed' }, 400)
+    }
     const repo = new TaskRepository(c.env.DB)
     const success = await repo.updateTaskStatus(id, status)
 
     return c.json({ success })
+})
+
+app.put('/:id', async (c) => {
+    const id = c.req.param('id')
+    const body = await c.req.json()
+    if (body.status !== undefined && body.status !== 'pending' && body.status !== 'completed') {
+        return c.json({ error: 'Invalid status. Must be pending or completed' }, 400)
+    }
+    const repo = new TaskRepository(c.env.DB)
+    const success = await repo.updateTask(id, body)
+
+    if (!success) {
+        return c.json({ error: 'Failed to update task or no changes provided' }, 400)
+    }
+
+    return c.json({ message: 'Task updated successfully' }, 200)
 })
 
 app.delete('/:id', async (c) => {

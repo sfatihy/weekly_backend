@@ -99,7 +99,7 @@ export const openApiSpec = {
                         }
                     }
                 },
-                responses: { "200": { description: "New Access Token generated" } }
+                responses: { "200": { description: "New Access Token and Refresh Token generated" } }
             }
         },
         "/users": {
@@ -163,7 +163,6 @@ export const openApiSpec = {
                             schema: {
                                 type: "object",
                                 properties: {
-                                    id: { type: "string" },
                                     title: { type: "string" },
                                     targetHours: { type: "number" },
                                     period: { type: "string" }
@@ -177,25 +176,40 @@ export const openApiSpec = {
             get: {
                 tags: ["Goals"],
                 summary: "Get all goals",
-                responses: { "200": { description: "List of goals" } }
+                responses: {
+                    "200": {
+                        description: "List of goals with their tasks and aggregated time",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    type: "array",
+                                    items: {
+                                        type: "object",
+                                        properties: {
+                                            id: { type: "string" },
+                                            title: { type: "string" },
+                                            targetHours: { type: "number" },
+                                            period: { type: "string" },
+                                            loggedHours: { type: "number" },
+                                            tasks: {
+                                                type: "array",
+                                                items: { type: "object" }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
-        "/goals/{goalId}": {
-            delete: {
+        "/goals/{id}": {
+            put: {
                 tags: ["Goals"],
-                summary: "Delete a goal",
+                summary: "Update a goal",
                 parameters: [
-                    { name: "goalId", in: "path", required: true, schema: { type: "string" } }
-                ],
-                responses: { "200": { description: "Goal deleted" } }
-            }
-        },
-        "/goals/{goalId}/logs": {
-            post: {
-                tags: ["Goals"],
-                summary: "Add a progress log to a specific goal",
-                parameters: [
-                    { name: "goalId", in: "path", required: true, schema: { type: "string" } }
+                    { name: "id", in: "path", required: true, schema: { type: "string" } }
                 ],
                 requestBody: {
                     required: true,
@@ -204,35 +218,23 @@ export const openApiSpec = {
                             schema: {
                                 type: "object",
                                 properties: {
-                                    id: { type: "string" },
-                                    hours: { type: "number" },
-                                    timestamp: { type: "string", format: "date-time" },
-                                    isCompleted: { type: "boolean" }
+                                    title: { type: "string" },
+                                    targetHours: { type: "number" },
+                                    period: { type: "string" }
                                 }
                             }
                         }
                     }
                 },
-                responses: { "201": { description: "Log added" } }
+                responses: { "200": { description: "Goal updated successfully" } }
             },
-            get: {
-                tags: ["Goals"],
-                summary: "Get logs for a specific goal",
-                parameters: [
-                    { name: "goalId", in: "path", required: true, schema: { type: "string" } }
-                ],
-                responses: { "200": { description: "List of logs" } }
-            }
-        },
-        "/goals/{goalId}/logs/{logId}": {
             delete: {
                 tags: ["Goals"],
-                summary: "Delete a goal log",
+                summary: "Delete a goal",
                 parameters: [
-                    { name: "goalId", in: "path", required: true, schema: { type: "string" } },
-                    { name: "logId", in: "path", required: true, schema: { type: "string" } }
+                    { name: "id", in: "path", required: true, schema: { type: "string" } }
                 ],
-                responses: { "200": { description: "Goal log deleted" } }
+                responses: { "200": { description: "Goal deleted" } }
             }
         },
         "/tasks": {
@@ -246,13 +248,13 @@ export const openApiSpec = {
                             schema: {
                                 type: "object",
                                 properties: {
-                                    id: { type: "string" },
                                     title: { type: "string" },
                                     description: { type: "string" },
                                     startTime: { type: "string", format: "date-time" },
                                     endTime: { type: "string", format: "date-time" },
                                     recurrence: { type: "string" },
                                     goalId: { type: "string" },
+                                    isGoalLog: { type: "boolean" },
                                     goalLogId: { type: "string" }
                                 }
                             }
@@ -290,6 +292,34 @@ export const openApiSpec = {
             }
         },
         "/tasks/{id}": {
+            put: {
+                tags: ["Tasks"],
+                summary: "Update entire task properties",
+                parameters: [
+                    { name: "id", in: "path", required: true, schema: { type: "string" } }
+                ],
+                requestBody: {
+                    required: true,
+                    content: {
+                        "application/json": {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    title: { type: "string" },
+                                    description: { type: "string" },
+                                    startTime: { type: "string", format: "date-time" },
+                                    endTime: { type: "string", format: "date-time" },
+                                    status: { type: "string" },
+                                    recurrence: { type: "string" },
+                                    goalId: { type: "string" },
+                                    isGoalLog: { type: "boolean" }
+                                }
+                            }
+                        }
+                    }
+                },
+                responses: { "200": { description: "Task updated successfully" } }
+            },
             delete: {
                 tags: ["Tasks"],
                 summary: "Delete a task",
@@ -347,7 +377,6 @@ export const openApiSpec = {
                             schema: {
                                 type: "object",
                                 properties: {
-                                    id: { type: "string" },
                                     title: { type: "string" },
                                     type: { type: "string" },
                                     date: { type: "string", format: "date-time" },

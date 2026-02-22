@@ -3,7 +3,8 @@ CREATE TABLE IF NOT EXISTS users (
     id TEXT PRIMARY KEY,
     email TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
-    name TEXT
+    name TEXT,
+    tokenVersion INTEGER DEFAULT 0
 );
 
 -- Goals Table
@@ -15,15 +16,6 @@ CREATE TABLE IF NOT EXISTS goals (
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- Goal Logs Table (Extracted from nested list)
-CREATE TABLE IF NOT EXISTS goal_logs (
-    id TEXT PRIMARY KEY,
-    goalId TEXT NOT NULL,
-    hours REAL NOT NULL,
-    timestamp DATETIME NOT NULL,
-    isCompleted INTEGER DEFAULT 0, -- 1 for true, 0 for false
-    FOREIGN KEY (goalId) REFERENCES goals(id) ON DELETE CASCADE
-);
 
 -- Tasks Table
 CREATE TABLE IF NOT EXISTS tasks (
@@ -36,10 +28,9 @@ CREATE TABLE IF NOT EXISTS tasks (
     recurrence TEXT DEFAULT 'none', -- 'none', 'daily', 'weekly', 'monthly'
     deadlineDate DATETIME,
     goalId TEXT,
-    goalLogId TEXT,
+    isGoalLog INTEGER DEFAULT 0, -- Used to separate quick time logs from regular tasks
     userId TEXT, -- Added to link task to user based on ERD
     FOREIGN KEY (goalId) REFERENCES goals(id) ON DELETE SET NULL,
-    FOREIGN KEY (goalLogId) REFERENCES goal_logs(id) ON DELETE SET NULL,
     FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
 );
 

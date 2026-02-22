@@ -14,7 +14,9 @@ export class TransactionRepository {
 
     async getTransactions(userId?: string): Promise<any[]> {
         if (userId) {
-            const { results } = await this.db.prepare(`SELECT * FROM transactions WHERE userId = ? ORDER BY date DESC`).bind(userId).all();
+            const { results } = await this.db.prepare(
+                `SELECT id, title, amount, type, date, category FROM transactions WHERE userId = ? ORDER BY date DESC`
+            ).bind(userId).all();
             return results;
         }
         const { results } = await this.db.prepare(`SELECT * FROM transactions ORDER BY date DESC`).all();
@@ -22,7 +24,7 @@ export class TransactionRepository {
     }
 
     async deleteTransaction(id: string): Promise<boolean> {
-        const { success } = await this.db.prepare(`DELETE FROM transactions WHERE id = ?`).bind(id).run();
-        return success;
+        const { meta } = await this.db.prepare(`DELETE FROM transactions WHERE id = ?`).bind(id).run();
+        return meta.changes > 0;
     }
 }
